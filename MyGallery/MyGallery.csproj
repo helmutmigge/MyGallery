@@ -119,10 +119,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="commands\RegistryStorageFolderCommand.cs" />
+    <Compile Include="exceptions\FullRecordRegistryStorageFolderException.cs" />
+    <Compile Include="helpers\FileExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="models\RegistryStorageFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="services\impl\RegistryStorageFolderService.cs" />
+    <Compile Include="services\IRegistryStorageFolderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

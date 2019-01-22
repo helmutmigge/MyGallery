@@ -5,10 +5,34 @@
     xmlns:local="using:MyGallery"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:MyGallery.models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <CommandBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" IsOpen="False"  DefaultLabelPosition="Right">
+            <AppBarButton Icon="NewFolder" Label="Add" Command="{x:Bind RegistryStorageFolderCommand}"/>
+            <AppBarButton  Label="Refresh" Icon="Refresh" Click="OnRefreshCollectionClick"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind RegistryStorageFolders}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:RegistryStorageFolder">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Token }"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
