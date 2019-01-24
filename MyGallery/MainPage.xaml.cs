@@ -27,29 +27,35 @@ namespace MyGallery
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly IRegistryStorageFolderService _registryStorageFolderService;
-
         public MainPage()
         {
-            _registryStorageFolderService = RegistryStorageFolderService.CreateAsync().Result;
-            RegistryStorageFolders = new ObservableCollection<RegistryStorageFolder>(_registryStorageFolderService.ListAllAsync().Result);
-            RegistryStorageFolderCommand = new RegistryStorageFolderCommand(_registryStorageFolderService);
+            RegistryStorageFolderService.CreateAsync().ContinueWith(task =>
+            {
+                if (task.IsCompletedSuccessfully)
+                {
+                    IRegistryStorageFolderService registryStorageFolderService = task.Result;
+                    RegistryStorageFolderCommand.RegistryStorageFolderService = registryStorageFolderService;
+                    RefreshStorageFolderCommand.RegistryStorageFolderService = registryStorageFolderService;
+                }
+                else
+                {
+                    //TODO handler exception maybe show dialog error
+                }
+
+            });
+            RegistryStorageFolders = new ObservableCollection<RegistryStorageFolder>();
+            RegistryStorageFolderCommand = new RegistryStorageFolderCommand();
+            RefreshStorageFolderCommand = new RefreshStorageFolderCommand
+            {
+                RegistryStorageFolders = RegistryStorageFolders
+            };
 
             this.InitializeComponent();
         }
 
+        public RefreshStorageFolderCommand RefreshStorageFolderCommand { get; }
         public RegistryStorageFolderCommand RegistryStorageFolderCommand { get; }
 
         public ObservableCollection<RegistryStorageFolder> RegistryStorageFolders { get; }
-
-        private async void OnRefreshCollectionClick(object sender, RoutedEventArgs e)
-        {
-            RegistryStorageFolders.Clear();
-            IEnumerable<RegistryStorageFolder> registryStorageFolders = await _registryStorageFolderService.ListAllAsync();
-            foreach (var registryStorageFolder in registryStorageFolders)
-            {
-                RegistryStorageFolders.Add(registryStorageFolder);
-            }
-        }
     }
 }

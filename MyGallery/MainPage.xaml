@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <CommandBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent" IsOpen="False"  DefaultLabelPosition="Right">
             <AppBarButton Icon="NewFolder" Label="Add" Command="{x:Bind RegistryStorageFolderCommand}"/>
-            <AppBarButton  Label="Refresh" Icon="Refresh" Click="OnRefreshCollectionClick"/>
+            <AppBarButton  Label="Refresh" Icon="Refresh" Command="{x:Bind RefreshStorageFolderCommand}"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Setting" Label="Settings"/>
             </CommandBar.SecondaryCommands>

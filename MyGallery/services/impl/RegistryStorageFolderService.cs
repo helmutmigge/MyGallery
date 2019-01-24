@@ -28,18 +28,19 @@ namespace MyGallery.services.impl
             return await registryStorageFolderService.InitializeAsync();
         }
 
-        private async Task<RegistryStorageFolderService> InitializeAsync()
+        private Task<RegistryStorageFolderService> InitializeAsync()
         {
-
-            foreach (var accessListEntry in StorageApplicationPermissions.FutureAccessList.Entries)
+            return Task.Run(async () =>
             {
-                string token = accessListEntry.Token;
-                RegistryStorageFolder registryStorageFolder = new RegistryStorageFolder(token, this);
-                StorageFolder storageFolder = await registryStorageFolder.GetStorageFolderAsync();
-                this._registryStorageFolders[storageFolder.Path] = registryStorageFolder;
-            }
-
-            return this;
+                foreach (AccessListEntry accessListEntry in StorageApplicationPermissions.FutureAccessList.Entries)
+                {
+                    string token = accessListEntry.Token;
+                    RegistryStorageFolder registryStorageFolder = new RegistryStorageFolder(token, this);
+                    StorageFolder storageFolder = await registryStorageFolder.GetStorageFolderAsync();
+                    this._registryStorageFolders[storageFolder.Path] = registryStorageFolder;
+                }
+                return this;
+            });
         } 
 
         public Task<RegistryStorageFolder> RegistryAsync(StorageFolder folder)

@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="commands\RefreshStorageFolderCommand.cs" />
     <Compile Include="commands\RegistryStorageFolderCommand.cs" />
     <Compile Include="exceptions\FullRecordRegistryStorageFolderException.cs" />
     <Compile Include="helpers\FileExtensions.cs" />

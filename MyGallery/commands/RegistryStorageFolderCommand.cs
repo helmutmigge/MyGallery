@@ -13,17 +13,25 @@ namespace MyGallery.commands
 {
     public class RegistryStorageFolderCommand : ICommand
     {
-        private readonly IRegistryStorageFolderService _registryStorageFolderService;
+        private IRegistryStorageFolderService _registryStorageFolderService;
         public event EventHandler CanExecuteChanged;
 
-        public RegistryStorageFolderCommand(IRegistryStorageFolderService registryStorageFolderService)
+        public RegistryStorageFolderCommand()
         {
-            this._registryStorageFolderService = registryStorageFolderService;
+        }
+
+        public IRegistryStorageFolderService RegistryStorageFolderService {
+            get => _registryStorageFolderService;
+            set
+            {
+                _registryStorageFolderService = value;
+                CanExecuteChanged?.Invoke(this,null);
+            }
         }
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return RegistryStorageFolderService != null;
         }
 
         public async void Execute(object parameter)
